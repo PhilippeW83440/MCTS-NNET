@@ -16,7 +16,7 @@ Ultimately we find that combining MCTS planning and DQN learning in a single sol
 Our results demonstrate the performance of MCTS-NNET achieving a 98% success rate when compared to a 84% success rate for DQN and a 85% success rate for MCTS alone. This is possible with an **inference time of 4 ms**.
 
 
-## Julia Source code (optimized for speed)  
+## Julia source code (optimized for speed)  
 The code was initially developped in Python and later on optimized for speed in Julia.  
 The Julia versions are **much** faster than the Python versions.
 * MDP model: [mdp.jl](https://github.com/PhilippeW83440/mcts-nnet/blob/master/julia/mdp.jl)
@@ -34,7 +34,7 @@ julia scn.jl dp
 ```
 
 
-## Python Source code  
+## Python source code  
 
 Models and algorithms:  
 * tree search model: [model.py](https://github.com/PhilippeW83440/mcts-nnet/blob/master/search/model.py)  
