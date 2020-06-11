@@ -1,6 +1,6 @@
 ## Monte Carlo Tree Search with reinforcement Learning for Motion Planning
 
-This repo contains the code used in the paper "Monte Carlo Tree Search with reinforcement Learning for Motion Planning", IEEE ITSC 2020
+This repo contains the code used in the paper "Monte Carlo Tree Search with Reinforcement Learning for Motion Planning", IEEE ITSC 2020
 
 The following algorithms are implemented and benchmarked:
 - **Rules-based (reflex) method**: a simple emergency braking method
