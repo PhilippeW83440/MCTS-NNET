@@ -13,7 +13,7 @@ The following algorithms are implemented and benchmarked:
 
 Ultimately we find that combining MCTS planning and DQN learning in a single solution provides the best performance with real-time decisions. Here, a pre-trained DQN network is used to guide the tree search, providing fast and reliable estimates of Q-values and state values. We call this model MCTS-NNET, as it leverages on the insights of AlphaGo Zero.  
 
-Our results demonstrate the performance of MCTS-NNET achieving a 98% success rate when compared to a 84% success rate for DQN and a 85% success rate for MCTS alone. This is possible with an inference time of 4 ms.
+Our results demonstrate the performance of MCTS-NNET achieving a 98% success rate when compared to a 84% success rate for DQN and a 85% success rate for MCTS alone. This is possible with an **inference time of 4 ms**.
 
 
 ## Julia Source code (optimized for speed)  
