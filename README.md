@@ -1,4 +1,4 @@
-## Monte Carlo Tree Search with reinforcement Learning for Motion Planning
+## Monte Carlo Tree Search with Reinforcement Learning for Motion Planning
 
 This repo contains the code used in the paper "Monte Carlo Tree Search with Reinforcement Learning for Motion Planning", IEEE ITSC 2020
 
