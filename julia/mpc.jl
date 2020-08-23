@@ -89,8 +89,8 @@ mutable struct MpcModel
 		@NLexpression(mdl, binaryλ, 10*sum((λ[i]-0.5)^2 for i =1:10))
 		
 		# Objective function
-		#@NLobjective(mdl, Min, costS + costU - binaryλ)
-		@NLobjective(mdl, Min, costS - binaryλ)
+		@NLobjective(mdl, Min, costS + costU - binaryλ)
+		#@NLobjective(mdl, Min, costS - binaryλ)
 		#@NLobjective(mdl, Min, costS + costU - 1000*(λ-0.5)^2)
 		#@NLobjective(mdl, Min, costS - (λ-0.5)^2)
 

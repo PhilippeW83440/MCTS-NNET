@@ -96,6 +96,7 @@ function projectState(scn::ScnMulti, state)::Vector{Tuple{Float64, Float64}}
 		push!(obstacles, (t_cross, y_cross))
 	end
 	sort!(obstacles)
+	# return [obstacles[1]] # just for tests/checks XXX
 	return obstacles
 end
 
@@ -204,6 +205,7 @@ for (num_s, scn_start) in enumerate(scn.dev_set)
 				hardbrakes += 1
 			end
 			sp, r, done = sampleSuccReward(mdp, s, a)
+			println("profiles: $(sp[1]), $(sp[2]), $a")
 			score += r
 			if done>0#[1]
 				if done==2 #[2] == "goal"
