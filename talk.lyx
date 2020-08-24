@@ -124,6 +124,56 @@ Secondly, for every candidate path, a velocity profile is generated to avoid
 Two-Steps Path-Velocity Decomposition
 \end_layout
 
+\begin_layout Standard
+Speed planning exists in two main motion planning frameworks 
+\end_layout
+
+\begin_layout Itemize
+Coupled motion planning framework 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Explore the spatial-temporal space simultaneously using optimization techniques
+ or search algorithms 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Decoupled motion planning framework 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Plan a path first, then regulate the speed along the resulting path 
+\end_layout
+
+\begin_layout Itemize
+Do speed planning directly along a fixed path (the focus of this paper)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Why Speed Profile Planning? 
+\end_layout
+
+\begin_layout Itemize
+Layered approaches (path planning + speed profile planning) are usually
+ more computationally efficient than integrated approaches for trajectory
+ planning (case 1).
+ 
+\end_layout
+
+\begin_layout Itemize
+In certain cases, a path is spatially fixed.
+ The vehicle can only resort to temporal maneuvers to respond to other road
+ participants (case 2).
+\end_layout
+
+\begin_layout Standard
+Summary:
+\end_layout
+
 \begin_layout Itemize
 We focus on the Motion Planning problem, where we must determine a set of
  acceleration commands along a candidate path, or a set of candidate paths,
@@ -486,9 +536,9 @@ safety
 \series default
  (penalizing collisions) and 
 \series bold
-com
+comfort
 \series default
-fort (penalizing hard braking at −4 ms −2 ).
+ (penalizing hard braking at −4 ms −2 ).
 \end_layout
 
 \begin_layout Subsection
