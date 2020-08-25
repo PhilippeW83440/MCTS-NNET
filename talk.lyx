@@ -1053,6 +1053,59 @@ The last metric is a safety metric: for eleven of our randomly generated
 Average Tests Results
 \end_layout
 
+\begin_layout Itemize
+Ultimately we obtain the best results by combining MCTS and DDQN.
+ 
+\end_layout
+
+\begin_layout Itemize
+We avoid time-consuming rollouts that depend on online statistics, since
+ with the DDQN, we leverage an efficient parametrization of the Q-value
+ function to guide the tree search.
+ 
+\end_layout
+
+\begin_layout Itemize
+In addition to MCTS rollouts and 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$Q(s,a)$
+\end_layout
+
+\end_inset
+
+ initialization modifications, we also modified MCTS exploration such that
+ when the Q-network provides a minor difference between 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+underset{a}{
+\backslash
+min}
+\backslash
+ Q(s,a)$ and $
+\backslash
+underset{a}{
+\backslash
+max}
+\backslash
+ Q(s,a),$
+\end_layout
+
+\end_inset
+
+ we increase the level of exploration.
+ With this approach, the rollout computational effort is shifted offline.
+ 
+\end_layout
+
 \begin_layout Subsection
 Distribution of Tests Results
 \end_layout
@@ -1134,8 +1187,8 @@ Motion Planner
 
 \begin_layout Itemize
 The proposed system is bench-marked against six other agents, covering a
- wide spectrum of techniques in chal- lenging scenarios where we have to
- deal with multiple crossing-points.
+ wide spectrum of techniques in challenging scenarios where we have to deal
+ with multiple crossing-points.
  Our results showed that the proposed agent outperforms other agents for
  many different metrics: safety, comfort, and efficiency, with a runtime
  below 40 ms and a success rate close to 100% over a set of 300 tests.
@@ -1204,7 +1257,7 @@ This solution is based on Mixed Integer Programming (22 ms)
 
 \begin_layout Itemize
 We also investigate how the Simplex algorithm could be adapted to solve
- aproblem initially defined over a quadratic cost function (6 ms)
+ a problem initially defined over a quadratic cost function (6 ms)
 \end_layout
 
 \begin_layout Itemize
@@ -1217,22 +1270,9 @@ MPC_MIPe: we replace the boolean variables with real variables such that
 \end_layout
 
 \begin_layout Itemize
-Additional work out there on the topics of speeding up MPC and structural
- exploitation (Hessian matrix is typically a sparse / band matrix) to achieve
- faster speeds
-\end_layout
-
-\begin_layout Section
-Questions
-\end_layout
-
-\begin_layout Standard
-This work was started by end of 2019 in the context of a Stanford project
- by Philippe Weingertner and Minnie Ho
-\end_layout
-
-\begin_layout Standard
-contacts: pweinger@stanford.edu, minnieho@stanford.edu
+Additional work to do on the topics of speeding up MPC and structural exploitati
+on (Hessian matrix is typically a sparse / band matrix) to achieve faster
+ speeds
 \end_layout
 
 \end_body
