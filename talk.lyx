@@ -120,6 +120,47 @@ Secondly, for every candidate path, a velocity profile is generated to avoid
 \end_layout
 
 \end_deeper
+\begin_layout Itemize
+Trajectory Tracking is done after Motion Planning:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Using a more detailed dynamics model (instead of a kinematic model) taking
+ into account e.g.
+ tire models
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Tradeoff between Motion Planner and Trajectory Tracking:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Simpler dynamics/kinematic model for MP as it has to explore much more possibili
+ties
+\end_layout
+
+\begin_layout Itemize
+More complex dynamics model for Trajectory Tracking once a reduced set of
+ candidate Motion Plans are identified
+\end_layout
+
+\begin_layout Itemize
+Tradeoff may vary: if road is wet and curvature high for example.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Motion Planner: -> kinematic models, linearized models
+\end_layout
+
+\begin_layout Itemize
+Trajectory Tracking: -> dynamics and non-linear models (forces, slip angle
+ and ration tire models)
+\end_layout
+
 \begin_layout Subsection
 Two-Steps Path-Velocity Decomposition
 \end_layout
@@ -206,10 +247,29 @@ The challenge is to avoid ten vehicles crossing our path, optimizing efficiency
 \end_layout
 
 \begin_layout Itemize
-We see from Figure that our ego vehicle, represented by the blue vector
- starting at coordinates (200,0) and moving upwards along a one-dimensional
- path, may collide with other dynamic obstacles, shown in green (no collision)
- or red (collision).
+The algorithms will be:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+first tested in scenarios with multiple crossing-points.
+ 
+\end_layout
+
+\begin_layout Itemize
+We then proceed with Intersection and Automatic Cruise Control (ACC) tests.
+\end_layout
+
+\begin_layout Itemize
+We finally check the results on single crossing-point tests
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+For example: we see from Figure that our ego vehicle, represented by the
+ blue vector starting at coordinates (200,0) and moving upwards along a
+ one-dimensional path, may collide with other dynamic obstacles, shown in
+ green (no collision) or red (collision).
  The predicted collision points along the path are depicted in red.
  We note that an interval around the collision point can be defined as "avoidabl
 e" regions with a safety margin.
@@ -316,65 +376,6 @@ Furthermore, we have only a single kinematic model (the ego vehicle) embedded
 With this deterministic and generic search model from which sources of uncertain
 ties have been pre- analyzed and projected onto the ego path, we combine
  the search with the set of requirements to which we must comply.
-\end_layout
-
-\begin_layout Itemize
-To handle sharp turns at intersections, we define a set of maximum values
- 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$(
-\backslash
-dot{s}_{max}(
-\backslash
-kappa), 
-\backslash
-ddot{s}_{max}(
-\backslash
-kappa))$
-\end_layout
-
-\end_inset
-
- for ego-acceleration and ego-speed depending on the curvature 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$
-\backslash
-kappa$
-\end_layout
-
-\end_inset
-
-, with 
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-$
-\backslash
-left(s_{f},
-\backslash
-dot{s}_{f}
-\backslash
-right)$
-\end_layout
-
-\end_inset
-
- the target for the ego vehicle.
-\end_layout
-
-\begin_layout Itemize
-In order to ensure comfort, we want to avoid strong accelerations and decelerati
-ons.
 \end_layout
 
 \begin_layout Subsection
@@ -739,12 +740,71 @@ text{safety}}$
  point.
 \end_layout
 
+\begin_layout Itemize
+To handle sharp turns at intersections, we define a set of maximum values
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$(
+\backslash
+dot{s}_{max}(
+\backslash
+kappa), 
+\backslash
+ddot{s}_{max}(
+\backslash
+kappa))$
+\end_layout
+
+\end_inset
+
+ for ego-acceleration and ego-speed depending on the curvature 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+kappa$
+\end_layout
+
+\end_inset
+
+, with 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+left(s_{f},
+\backslash
+dot{s}_{f}
+\backslash
+right)$
+\end_layout
+
+\end_inset
+
+ the target for the ego vehicle.
+\end_layout
+
+\begin_layout Itemize
+In order to ensure comfort, we want to avoid strong accelerations and decelerati
+ons.
+\end_layout
+
 \begin_layout Section
 Algorithms (3 min)
 \end_layout
 
 \begin_layout Standard
-We define lower and upperbounds for our real-time solution via Baselines
+We define lower and upper bounds for our real-time solution via Baselines
  and Oracles.
 \end_layout
 
@@ -837,8 +897,8 @@ We implement a Double DQN (DDQN) agent [18].
 In other words, given a model, with known ego-vehicle dynamics and known
  terminal states, a set of spatio-temporal points we should avoid, and a
  terminal state we want to reach, we perform DDQN training to learn a fast
- parameter- ized Q-value function, which evaluates a specific action in
- a specific state.
+ parameterized Q-value function, which evaluates a specific action in a
+ specific state.
  
 \end_layout
 
@@ -846,6 +906,52 @@ In other words, given a model, with known ego-vehicle dynamics and known
 This function is then used to define a policy when using DDQN in standalone
  mode or used as a heuristic to efficiently guide MCTS tree search, by replacing
  rollouts and initializing Q (s, a) values.
+\end_layout
+
+\begin_layout Itemize
+In practice, our main issue was to derive a state-space representation enabling
+ convergence to a useful function.
+ Providing raw information about all constraints with the full set of 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+left
+\backslash
+{ 
+\backslash
+left(s_{i},t_{i}
+\backslash
+right)_{i=1..n}
+\backslash
+right
+\backslash
+} $
+\end_layout
+
+\end_inset
+
+ spatio-temporal points to avoid was unsuccessful, since the network was
+ not able to converge.
+ 
+\end_layout
+
+\begin_layout Itemize
+We had to use a smaller and more importantly - a sorted list - to enable
+ training.
+ When the state-space representation is restricted to a list of the three
+ most problematic crossing-points, sorted by criticality in terms of smallest
+ TTC, the network quickly learns a useful Q-function.
+ 
+\end_layout
+
+\begin_layout Itemize
+But then by design, it is clear such a DDQN network will not be able to
+ handle the most difficult cases, where reasoning about more than three
+ crossing-points is required.
 \end_layout
 
 \begin_layout Subsection
@@ -965,15 +1071,43 @@ We benchmark different MPC implementations.
  
 \end_layout
 
+\begin_deeper
 \begin_layout Itemize
-In the first implementation we do not use the Elastic Model and the binary
- slack variables to deal with disjunctive constraints.
+We propose a Collision Avoidance model based on an Elastic Model handling
+ disjunctive constraints.
  
 \end_layout
 
 \begin_layout Itemize
-Whereas with MPC_MIP we are using our proposed collision avoidance model.
- The safety improvement is significant: we not only outperformthe reference
+This solution is based on Mixed Integer Programming (22 ms)
+\end_layout
+
+\begin_layout Itemize
+We also investigate how the Simplex algorithm could be adapted to solve
+ aproblem initially defined over a quadratic cost function (6 ms)
+\end_layout
+
+\begin_layout Itemize
+MPC_MIPe: we replace the boolean variables with real variables such that
+ 
+\begin_inset Formula $\lambda_{i}\in\left[0,1\right],\text{ and an extra\_cost}=-10\sum_{i=1}^{10}\left(\lambda_{i}-0.5\right)²$
+\end_inset
+
+ and achieves results similar to MPC_MIP in just 6 ms
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+In the first implementation (when paper was submitted) we do not use the
+ Elastic Model and the binary slack variables to deal with disjunctive constrain
+ts.
+ 
+\end_layout
+
+\begin_layout Itemize
+Whereas with MPC_MIP-MPC_MIPe-MPC_SIMPLEX we are using our proposed collision
+ avoidance model.
+ The safety improvement is significant: we not only outperform the reference
  MPC implementation but also reach our upper bound in terms of collision
  avoidancemetric
 \end_layout
@@ -1074,7 +1208,31 @@ We also investigate how the Simplex algorithm could be adapted to solve
 \end_layout
 
 \begin_layout Itemize
-MPC_MIPe: 6 ms as well
+MPC_MIPe: we replace the boolean variables with real variables such that
+ 
+\begin_inset Formula $\lambda_{i}\in\left[0,1\right],\text{ and an extra\_cost}=-10\sum_{i=1}^{10}\left(\lambda_{i}-0.5\right)²$
+\end_inset
+
+ and achieves results similar to MPC_MIP in just 6 ms
+\end_layout
+
+\begin_layout Itemize
+Additional work out there on the topics of speeding up MPC and structural
+ exploitation (Hessian matrix is typically a sparse / band matrix) to achieve
+ faster speeds
+\end_layout
+
+\begin_layout Section
+Questions
+\end_layout
+
+\begin_layout Standard
+This work was started by end of 2019 in the context of a Stanford project
+ by Philippe Weingertner and Minnie Ho
+\end_layout
+
+\begin_layout Standard
+contacts: pweinger@stanford.edu, minnieho@stanford.edu
 \end_layout
 
 \end_body
