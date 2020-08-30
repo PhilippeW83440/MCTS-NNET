@@ -15,7 +15,7 @@ Ultimately we find that combining MCTS planning and DQN learning in a single sol
 
 Our results demonstrate the performance of MCTS-NNET achieving a 98% success rate when compared to a 84% success rate for DQN and a 85% success rate for MCTS alone. This is possible with an **inference time of 4 ms**.  
 
-[Presentation video of the paper.](https://www.youtube.com/watch?v=20UUtxbIPrE) 
+[Presentation video of the paper](https://www.youtube.com/watch?v=20UUtxbIPrE) 
 
 ## Julia source code (optimized for speed)  
 The code was initially developped in Python and later on optimized for speed in Julia.  
